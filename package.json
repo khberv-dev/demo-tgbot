@@ -1,0 +1,18 @@
+{
+  "name": "demo-tgbot",
+  "version": "1.0.0",
+  "description": "Telegram bot that puts a TELEG placeholder at the center of any image sent to it",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env index.js",
+    "dev": "node --watch --env-file-if-exists=.env index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "grammy": "^1.45.1",
+    "sharp": "^0.35.3"
+  }
+}
