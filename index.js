@@ -1,3 +1,4 @@
+const express = require("express");
 const { Bot, InputFile } = require("grammy");
 const { addCenterPlaceholder, TEXT } = require("./src/placeholder");
 
@@ -77,6 +78,19 @@ bot
     process.exit(1);
   });
 
+// Health endpoint, mostly so a host can see the process is alive.
+const PORT = Number(process.env.PORT) || 80;
+const app = express();
+
+app.use((req, res) => res.type("text/plain").send("Bot is working well"));
+
+const server = app.listen(PORT, () => console.log(`HTTP server listening on port ${PORT}`));
+server.on("error", (err) => console.error("HTTP server error:", err.message));
+
 // Let long polling finish the current update before the process exits.
-process.once("SIGINT", () => bot.stop());
-process.once("SIGTERM", () => bot.stop());
+function shutdown() {
+  server.close();
+  bot.stop();
+}
+process.once("SIGINT", shutdown);
+process.once("SIGTERM", shutdown);
